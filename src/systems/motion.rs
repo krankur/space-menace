@@ -8,6 +8,10 @@ use crate::{
     resources::Context,
 };
 
+use specs_physics::{
+    events::ContactEvents,
+};
+
 #[derive(Default)]
 pub struct MotionSystem;
 
@@ -64,6 +68,23 @@ impl<'s> System<'s> for CameraMotionSystem {
             if marine_x >= background_width && marine_x <= map_width - background_width {
                 transform.set_translation_x(marine_x);
             }
+        }
+    }
+}
+
+pub struct MarineMotionSystem;
+
+impl<'s> System<'s> for MarineMotionSystem {
+    type SystemData = (
+        ReadStorage<'s, Marine>,
+        ReadStorage<'s, Transform>,
+    );
+
+    fn run(&mut self, (marines,  transforms): Self::SystemData) {
+
+        for (_marine, transform) in (&marines, &transforms).join() {
+            println!("marine transform x = {}", transform.translation().x.as_f32());
+            println!("marine transform y = {}", transform.translation().y.as_f32());
         }
     }
 }

@@ -1,6 +1,6 @@
 use amethyst::{
     assets::{Asset, Handle, ProcessingState},
-    core::{math::Vector3, Transform, WithNamed},
+    core::{math::Vector3, Float, Transform, WithNamed},
     ecs::{prelude::World, VecStorage},
     error::Error,
     prelude::Builder,
@@ -8,6 +8,12 @@ use amethyst::{
 };
 
 use serde::{Deserialize, Serialize};
+
+use specs_physics::{
+    colliders::Shape,
+    nphysics::{algebra::Velocity3, object::BodyStatus},
+    PhysicsBody, PhysicsBodyBuilder, PhysicsColliderBuilder,
+};
 
 use crate::{
     components::{Collidee, Direction, Motion, Parallax, TwoDimObject},
@@ -89,13 +95,18 @@ impl Map {
             two_dim_object.set_top(ctx.bg_height * 2. - (obj.y * scale) + ctx.y_correction);
             two_dim_object.update_transform_position(&mut transform);
 
+            let shape = Shape::<Float>::Rectangle((obj.width * scale).into(), (obj.height * scale).into(), 0.0.into());
+
             world
                 .create_entity()
                 .named("Collision")
                 .with(Motion::new())
                 .with(transform)
-                .with(two_dim_object)
-                .with(Collidee::default())
+                .with(PhysicsBodyBuilder::<Float>::from(BodyStatus::Static)
+                    .build())
+                .with(PhysicsColliderBuilder::<Float>::from(shape).build())
+                // .with(two_dim_object)
+                // .with(Collidee::default())
                 .with(Direction::default())
                 .build();
         }

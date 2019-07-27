@@ -1,10 +1,13 @@
 use amethyst::{
+    core::Float,
     animation::{
         get_animation_set, AnimationCommand, AnimationControlSet, AnimationSet, EndControl,
     },
     ecs::{Entities, Join, ReadStorage, System, WriteStorage},
     renderer::SpriteRender,
 };
+
+use specs_physics::PhysicsBody;
 
 use crate::components::{Animation, AnimationId, BulletImpact, Explosion, Marine, Motion, Pincer};
 
@@ -146,22 +149,25 @@ impl<'s> System<'s> for MarineAnimationSystem {
         Entities<'s>,
         WriteStorage<'s, Marine>,
         ReadStorage<'s, Motion>,
+        ReadStorage<'s, PhysicsBody<Float>>,
         WriteStorage<'s, Animation>,
         WriteStorage<'s, AnimationControlSet<AnimationId, SpriteRender>>,
     );
 
     fn run(&mut self, data: Self::SystemData) {
-        let (entities, mut marines, motions, mut animations, mut animation_control_sets) = data;
+        let (entities, mut marines, motions, bodies, mut animations, mut animation_control_sets) = data;
 
-        for (entity, mut marine, motion, mut animation, animation_control_set) in (
+        for (entity, mut marine, motion, body, mut animation, animation_control_set) in (
             &entities,
             &mut marines,
             &motions,
+            &bodies,
             &mut animations,
             &mut animation_control_sets,
         )
             .join()
         {
+            println!("body.velocity = {:?}", body.velocity);
             let marine_velocity = motion.velocity;
             let new_animation_id = if marine_velocity.y != 0. {
                 AnimationId::Jump

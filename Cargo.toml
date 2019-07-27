@@ -5,10 +5,11 @@ authors = ["Kumar Ankur <kmrankur@outlook.com>"]
 edition = "2018"
 
 [dependencies]
-amethyst = { git = "https://github.com/amethyst/amethyst", features = ["nightly", "json"] }
+amethyst = { version = "0.11.0", features = ["nightly", "json"] }
 serde = "*"
 log = "*"
 specs-derive = "*"
+specs-physics= { version = "0.3.0", features = ["amethyst"] }
 
 [features]
 default = ["metal"]

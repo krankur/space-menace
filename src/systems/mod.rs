@@ -18,5 +18,6 @@ pub use self::collision::CollisionSystem;
 pub use self::collision::PincerCollisionSystem;
 pub use self::direction::DirectionSystem;
 pub use self::motion::CameraMotionSystem;
+pub use self::motion::MarineMotionSystem;
 pub use self::motion::MotionSystem;
 pub use self::parallax::ParallaxSystem;

@@ -54,16 +54,16 @@ pub fn load_marine(world: &mut World, prefab: Handle<Prefab<AnimationPrefabData>
         // .with(Collidee::default())
         .with(transform)
         .with(Motion::new())
-        .with(Animation::new(
-            AnimationId::Idle,
-            vec![
-                AnimationId::Die,
-                AnimationId::Idle,
-                AnimationId::Jump,
-                AnimationId::Move,
-                AnimationId::Shoot,
-            ],
-        ))
+        // .with(Animation::new(
+        //     AnimationId::Idle,
+        //     vec![
+        //         AnimationId::Die,
+        //         AnimationId::Idle,
+        //         AnimationId::Jump,
+        //         AnimationId::Move,
+        //         AnimationId::Shoot,
+        //     ],
+        // ))
         .with(prefab)
         .with(Direction::new(
             Directions::Right,

@@ -102,11 +102,7 @@ impl Map {
                 .named("Collision")
                 .with(Motion::new())
                 .with(transform)
-                .with(PhysicsBodyBuilder::<Float>::from(BodyStatus::Static)
-                    .build())
                 .with(PhysicsColliderBuilder::<Float>::from(shape).build())
-                // .with(two_dim_object)
-                // .with(Collidee::default())
                 .with(Direction::default())
                 .build();
         }
